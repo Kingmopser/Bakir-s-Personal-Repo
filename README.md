@@ -38,6 +38,6 @@ run main.py file
 Available [here](https://www.kaggle.com/competitions/home-data-for-ml-course/data):
 
 ## License:
-All rights belong to Kaggle. I do not own any of this data.
+All rights belong to Kaggle. I do not own any of this data. <p>
 
 
