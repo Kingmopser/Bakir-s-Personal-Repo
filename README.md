@@ -16,16 +16,16 @@ optimization
 Root Mean Squared error
 
 ## Technologies Used:
-Python
-Pandas & NumPy (Data manipulation)
-Matplotlib & Seaborn (Data visualization)
-Scikit-learn (Machine learning models)
+Python <p>
+Pandas & NumPy (Data manipulation) <p>
+Matplotlib & Seaborn (Data visualization) <p>
+Scikit-learn (Machine learning models) <p>
 
 ## Installation Instructions:
-1. Clone this repository:
+1. Clone this repository: <p>
 
 git clone https://github.com/Kingmopser/Housing_Prices_Prediction.git
-cd house-price-prediction
+cd house-price-prediction <p>
 
 2. install dependencies:
 pip install -r requirements.txt
