@@ -30,9 +30,6 @@ run main.py file
 Available [here](https://www.kaggle.com/competitions/home-data-for-ml-course/data):
 
 ## License:
-@misc{home-data-for-ml-course,
-    author = {DanB},
-    title = {Housing Prices Competition for Kaggle Learn Users},
-    year = {2018},
-    howpublished = {\url{https://kaggle.com/competitions/home-data-for-ml-course}},
-    note = {K
+All rights belong to Kaggle. I do not own any of this data.
+
+
