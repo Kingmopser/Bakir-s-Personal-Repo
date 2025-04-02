@@ -27,5 +27,12 @@ pip install -r requirements.txt
 run main.py file
 
 ## Data:
-Available  [here](https://www.kaggle.com/datasets):
+Available [here](https://www.kaggle.com/competitions/home-data-for-ml-course/data):
 
+## License:
+@misc{home-data-for-ml-course,
+    author = {DanB},
+    title = {Housing Prices Competition for Kaggle Learn Users},
+    year = {2018},
+    howpublished = {\url{https://kaggle.com/competitions/home-data-for-ml-course}},
+    note = {K
