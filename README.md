@@ -25,7 +25,7 @@ Scikit-learn (Machine learning models) <p>
 1. Clone this repository: <p>
 
 git clone https://github.com/Kingmopser/Housing_Prices_Prediction.git <p>
-cd house-price-prediction <p>
+cd house-price-prediction
 
 2. install dependencies: <p>
 pip install -r requirements.txt
