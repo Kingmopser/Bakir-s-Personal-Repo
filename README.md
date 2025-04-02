@@ -24,7 +24,7 @@ Scikit-learn (Machine learning models) <p>
 ## Installation Instructions:
 1. Clone this repository: <p>
 
-git clone https://github.com/Kingmopser/Housing_Prices_Prediction.git
+git clone https://github.com/Kingmopser/Housing_Prices_Prediction.git <p>
 cd house-price-prediction <p>
 
 2. install dependencies:
