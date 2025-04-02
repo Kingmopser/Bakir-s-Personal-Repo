@@ -14,6 +14,13 @@ Training on train Data and using different models
 optimization
 #### Evaluation:
 Root Mean Squared error
+
+## Technologies Used:
+Python
+Pandas & NumPy (Data manipulation)
+Matplotlib & Seaborn (Data visualization)
+Scikit-learn (Machine learning models)
+
 ## Installation Instructions:
 1. Clone this repository:
 
