@@ -4,15 +4,15 @@ This project builds a machine learning model to predict house prices based on va
 The dataset used is the Housing Prices dataset of Properties in Ames,Iowa.
 
 ## Feature:
-#### Data pre-processing:
+### Data pre-processing:
 Handling missing values,
-#### Explanatory Data Analysis:
+### Explanatory Data Analysis:
 Descriptive Plots
-#### Model Training:
+### Model Training:
 Training on train Data and using different models
-#### Hyperparameter Tuning:
+### Hyperparameter Tuning:
 optimization
-#### Evaluation:
+### Evaluation:
 Root Mean Squared error
 
 ## Technologies Used:
@@ -22,12 +22,12 @@ Matplotlib & Seaborn (Data visualization) <p>
 Scikit-learn (Machine learning models) <p>
 
 ## Installation Instructions:
-1. Clone this repository: <p>
+### 1. Clone this repository: <p>
 
 git clone https://github.com/Kingmopser/Housing_Prices_Prediction.git <p>
 cd house-price-prediction
 
-2. install dependencies: <p>
+### 2. install dependencies: <p>
 
 pip install -r requirements.txt
 
