@@ -4,6 +4,8 @@ import pandas as pd
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import root_mean_squared_error
+from sklearn.feature_selection import f_regression
+
 
 # reading Dataset
 test = pd.read_csv("/Users/kingmopser/PycharmProjects/Housing_Prices_Prediction/assets/test.csv")
@@ -13,20 +15,59 @@ train = pd.read_csv("/Users/kingmopser/PycharmProjects/Housing_Prices_Prediction
 # overview of dataset
 print(train.head(5))
 print(train.tail(5))
-print(train.info)
+print(test.info)
 print(train.dtypes)
 print(train.isna().sum())
 
 # checking for duplicates
 train[train.duplicated()].shape
 
-#checking which columns have NAs
-na_col = train.isnull().sum().loc[lambda x: x>0 ]
-na_col
+# handling missing data/imputing
 
-# replacing NA placeholer with Strings, since they arent invalid entries.
-# it just stands for "No.." validating with Text book
 
-train["Alley"] = train["Alley"].replace(0,"No")
+# Function replacing NA placeholer with Strings for categorical variables and with 0 for numerical
+# since they aren't invalid entries.
+# it just stands for "No" validating with code book
+
+def rep(dataframe):
+    for i in dataframe.columns :
+        if not dataframe.dtypes[i] == "int64":
+           dataframe[i] = dataframe[i].fillna(value="No")
+        else:
+            dataframe[i] = dataframe[i].fillna(value=0)
+
+# for train set
+rep(train)
+# for train set
+rep(test)
+
+# Feature Selection with Random Forest
+
+f_val = f_regression()
+print(test[test["Utilities"].isna()])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
