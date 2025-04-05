@@ -32,7 +32,13 @@ cd house-price-prediction
 pip install -r requirements.txt
 
 ## Usage:
-run main.py file
+### Run the preprocessing script: <p>
+python preprocess.py <p>
+### Train the model: <p>
+<p>
+### Make predictions: <p>
+<p>
+
 
 ## Data:
 Available [here](https://www.kaggle.com/competitions/home-data-for-ml-course/data):
