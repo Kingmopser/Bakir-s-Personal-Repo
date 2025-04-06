@@ -10,7 +10,7 @@ from sklearn.feature_selection import f_regression
 from sklearn.preprocessing import OneHotEncoder, LabelEncoder
 from sklearn.impute import SimpleImputer
 import missingno as msno
-
+from sklearn.feature_selection import mutual_info_classif
 # reading Dataset
 test = pd.read_csv("/Users/kingmopser/PycharmProjects/Housing_Prices_Prediction/assets/test.csv")
 train = pd.read_csv("/Users/kingmopser/PycharmProjects/Housing_Prices_Prediction/assets/train.csv")
@@ -26,25 +26,26 @@ print(train.isna().sum())
 train['SalePrice'].value_counts()
 train.isnull().mean().loc[lambda x: x>0 ].sort_values(ascending=False)
 msno.bar(train)
+plt.show()
 msno.matrix(train)
+plt.show()
 msno.heatmap(train)
 plt.show()
 
-# imputing NAs
-
-# Function imputing dataframe using SimpleImputer
-def rep(dataframe):
+# preprocessing
+def Cleaner(df):
     const_imputer = SimpleImputer(strategy='constant', fill_value="unknown")
     mean_imputer = SimpleImputer(strategy='mean')
-    for i in dataframe.columns :
-        if dataframe.dtypes[i] == 'object':
-           dataframe[[i]] = const_imputer.fit_transform(dataframe[[i]])
+    encoder = LabelEncoder()
+    col = df.select_dtypes(include=["object"]).columns
+    # Imputing NAs
+    for i in df.columns :
+        if df.dtypes[i] == 'object':
+           df[[i]] = const_imputer.fit_transform(df[[i]])
         else:
-            dataframe[[i]] =mean_imputer.fit_transform(dataframe[[i]])
-    return dataframe
+            df[[i]] =mean_imputer.fit_transform(df[[i]])
 
-#Function ordering and apply Label Encoder
-def OrderingAndEncoding(df):
+    # defining ordered columns via domain knowledge
     ord_mappings = {
         "LotShape": ["IR3","IR2","IR1","Reg"],
         "LandSlope": ["Sev","Mod","Gtl"],
@@ -65,19 +66,25 @@ def OrderingAndEncoding(df):
         "PoolQC": ["unknown", "Po", "Fa", "TA", "Gd", "Ex"],
         "Fence": ["unknown", "MnWw", "GdWo", "MnPrv", "GdPrv"]
     }
-    encoder = LabelEncoder()
-    col = list(ord_mappings.keys())
-    df[col] =df[col].apply(encoder.fit_transform)
 
-# One-Hot-Encoder for Categorical
-    df = pd.get_dummies(df,drop_first=True)
+    #applying order to columns
+    for k,v in ord_mappings.items():
+        df[k]= pd.Categorical(df[k], categories=v, ordered=True)
+
+    # applying encoding
+    df[col] =df[col].apply(encoder.fit_transform)
     return df
 
 
 # applying both functions
-train = OrderingAndEncoding(rep(train))
-test = OrderingAndEncoding(rep(test))
+train = Cleaner(train)
+test = Cleaner(test)
 
 # Feature Selection
 
-
+X=train.drop(columns="SalePrice")
+y=train["SalePrice"]
+f_value = f_regression(X, y)
+MI_score = mutual_info_classif(X, y, random_state=0)
+for i,j in enumerate(X.columns):
+    print(f"{j} {MI_score[i]}")
