@@ -31,7 +31,6 @@ msno.matrix(train)
 plt.show()
 msno.heatmap(train)
 plt.show()
-
 # preprocessing
 def Cleaner(df):
     const_imputer = SimpleImputer(strategy='constant', fill_value="unknown")
