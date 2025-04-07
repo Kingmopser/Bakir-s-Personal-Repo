@@ -1,26 +1,31 @@
-
-import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-
-from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
-from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.metrics import root_mean_squared_error
-from sklearn.feature_selection import f_regression
-from sklearn.preprocessing import OneHotEncoder, LabelEncoder
-from sklearn.impute import SimpleImputer
 import missingno as msno
-from sklearn.feature_selection import mutual_info_classif
-# reading Dataset
+from sklearn.preprocessing import LabelEncoder, StandardScaler
+from sklearn.impute import SimpleImputer
+
 test = pd.read_csv("/Users/kingmopser/PycharmProjects/Housing_Prices_Prediction/assets/test.csv")
 train = pd.read_csv("/Users/kingmopser/PycharmProjects/Housing_Prices_Prediction/assets/train.csv")
 
 # overview of dataset
 print(train.head(5))
 print(train.tail(5))
-print(test.info())
+print(train.info())
 print(train.dtypes)
 print(train.isna().sum())
+
+# visualizing variance of numerical values
+data=train[train.select_dtypes(exclude=["object"]).columns]
+plt.figure(figsize=(15, 10))
+plt.boxplot(data.values,labels=data.columns, vert=True )
+plt.xticks(rotation=90)
+plt.show()
+
+data2 = data[data < 100000]
+plt.figure(figsize=(15, 10))
+plt.boxplot(data2.values,labels=data2.columns, vert=True )
+plt.xticks(rotation=90)
+plt.show()
 
 # visualizing missing data
 train['SalePrice'].value_counts()
@@ -31,8 +36,17 @@ msno.matrix(train)
 plt.show()
 msno.heatmap(train)
 plt.show()
-# preprocessing
-def Cleaner(df):
+
+
+# preprocessing function/pipeline
+def CleanerImport(filePath):
+
+    df = pd.read_csv(filePath)
+
+    df.drop(columns="Id", inplace=True)
+    df.drop(columns="Id", inplace=True)
+    num_var = df.select_dtypes(exclude=["object"]).columns
+    cat_var = df.select_dtypes(include=["object"]).columns
     const_imputer = SimpleImputer(strategy='constant', fill_value="unknown")
     mean_imputer = SimpleImputer(strategy='mean')
     encoder = LabelEncoder()
@@ -72,18 +86,13 @@ def Cleaner(df):
 
     # applying encoding
     df[col] =df[col].apply(encoder.fit_transform)
+
+    # standarizing
+    scaler = StandardScaler()
+    df[num_var] = pd.DataFrame(scaler.fit_transform(df[num_var]), columns=num_var)
     return df
 
 
-# applying both functions
-train = Cleaner(train)
-test = Cleaner(test)
 
-# Feature Selection
 
-X=train.drop(columns="SalePrice")
-y=train["SalePrice"]
-f_value = f_regression(X, y)
-MI_score = mutual_info_classif(X, y, random_state=0)
-for i,j in enumerate(X.columns):
-    print(f"{j} {MI_score[i]}")
+
