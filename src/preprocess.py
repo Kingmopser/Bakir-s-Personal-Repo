@@ -4,46 +4,47 @@ import missingno as msno
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.impute import SimpleImputer
 
-test = pd.read_csv("/Users/kingmopser/PycharmProjects/Housing_Prices_Prediction/assets/test.csv")
-train = pd.read_csv("/Users/kingmopser/PycharmProjects/Housing_Prices_Prediction/assets/train.csv")
+
+if __name__ == "__main__":
+    test = pd.read_csv("/Users/kingmopser/PycharmProjects/Housing_Prices_Prediction/assets/test.csv")
+    train = pd.read_csv("/Users/kingmopser/PycharmProjects/Housing_Prices_Prediction/assets/train.csv")
 
 # overview of dataset
-print(train.head(5))
-print(train.tail(5))
-print(train.info())
-print(train.dtypes)
-print(train.isna().sum())
+    print(train.head(5))
+    print(train.tail(5))
+    print(train.info())
+    print(train.dtypes)
+    print(train.isna().sum())
 
-# visualizing variance of numerical values
-data=train[train.select_dtypes(exclude=["object"]).columns]
-plt.figure(figsize=(15, 10))
-plt.boxplot(data.values,labels=data.columns, vert=True )
-plt.xticks(rotation=90)
-plt.show()
+    # visualizing variance of numerical values
+    data=train[train.select_dtypes(exclude=["object"]).columns]
+    plt.figure(figsize=(15, 10))
+    plt.boxplot(data.values,labels=data.columns, vert=True )
+    plt.xticks(rotation=90)
+    plt.show()
 
-data2 = data[data < 100000]
-plt.figure(figsize=(15, 10))
-plt.boxplot(data2.values,labels=data2.columns, vert=True )
-plt.xticks(rotation=90)
-plt.show()
+    data2 = data[data < 100000]
+    plt.figure(figsize=(15, 10))
+    plt.boxplot(data2.values,labels=data2.columns, vert=True )
+    plt.xticks(rotation=90)
+    plt.show()
 
-# visualizing missing data
-train['SalePrice'].value_counts()
-train.isnull().mean().loc[lambda x: x>0 ].sort_values(ascending=False)
-msno.bar(train)
-plt.show()
-msno.matrix(train)
-plt.show()
-msno.heatmap(train)
-plt.show()
+    # visualizing missing data
+    train['SalePrice'].value_counts()
+    train.isnull().mean().loc[lambda x: x>0 ].sort_values(ascending=False)
+    msno.bar(train)
+    plt.show()
+    msno.matrix(train)
+    plt.show()
+    msno.heatmap(train)
+    plt.show()
 
 
-# preprocessing function/pipeline
+# definining  preprocessing function/pipeline
 def CleanerImport(filePath):
 
     df = pd.read_csv(filePath)
 
-    df.drop(columns="Id", inplace=True)
     df.drop(columns="Id", inplace=True)
     num_var = df.select_dtypes(exclude=["object"]).columns
     cat_var = df.select_dtypes(include=["object"]).columns
