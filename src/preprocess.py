@@ -47,6 +47,7 @@ def CleanerImport(filePath):
 
     df.drop(columns="Id", inplace=True)
     num_var = df.select_dtypes(exclude=["object"]).columns
+    num_var = num_var[num_var != "SalePrice"] #because the predicted values shouldn't be scaled
     cat_var = df.select_dtypes(include=["object"]).columns
     const_imputer = SimpleImputer(strategy='constant', fill_value="unknown")
     mean_imputer = SimpleImputer(strategy='mean')
