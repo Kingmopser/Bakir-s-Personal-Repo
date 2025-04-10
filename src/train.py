@@ -1,30 +1,62 @@
+from src.preprocess import preprocessing
 import pandas as pd
-from src.preprocess import CleanerImport
-from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
-from sklearn.model_selection import train_test_split, GridSearchCV
+import numpy as np
 from sklearn.metrics import root_mean_squared_error
-from sklearn.feature_selection import f_regression
-from sklearn.feature_selection import SelectKBest
-from sklearn.feature_selection import mutual_info_classif
+from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
+from sklearn.model_selection import train_test_split, GridSearchCV, RandomizedSearchCV
 
 # getting dataset
 filePathTest  = "/Users/kingmopser/PycharmProjects/Housing_Prices_Prediction/assets/test.csv"
 filePathTrain = "/Users/kingmopser/PycharmProjects/Housing_Prices_Prediction/assets/train.csv"
-
-#apply cleaining
-train = CleanerImport(filePathTrain)
-test = CleanerImport(filePathTest)
-X_train, X_test, y_train, y_test = train_test_split(X= train,y= train["SalePrice"], train_size= 0.8, test_size=0.2, random_state=12)
-
-# Feature Selection
+if __name__ == "__main__":
+    #apply cleaining
+    train = preprocessing(filePathTrain,"train")
+    test = preprocessing(filePathTest,"test")
 
 
+def training(df):
 
-bestFeatures= SelectKBest(score_func=f_regression, k=30)
-res = bestFeatures.fit_transform(X=train,y=train["SalePrice"])
+    # seed
+    np.random.seed(23)
 
-# remove features
+    # train, test split
+    X_train, X_test, y_train, y_test = train_test_split(df.drop(columns="SalePrice",inplace = False),df["SalePrice"],
+                                                        train_size= 0.8, test_size=0.2)
+    # initializing model: randomforest
+    rf = RandomForestRegressor(n_estimators=100)
+    rf.fit(X_train,y_train)
+    predictions = rf.predict(X_test)
+    print(f"RMSE:{ root_mean_squared_error(y_test,predictions)} for initial model")
 
-train.columns[bestFeatures.get_support()]
+    # Hypertuning
+
+    # dictionary for possible parameter values
+    d1 = {"max_depth" : np.arange(1,20), "max_features" : ["sqrt", "log2", None]}
+    # rndm Grid Search 10 CV for hyperparameters
+    rdSearch = RandomizedSearchCV(rf, param_distributions=d1,cv=10,n_jobs=-1,random_state=23)
+    rdSearch.fit(X_train,y_train)
+    predictionsrd =rdSearch.predict(X_test)
+    print(f"RMSE:{ root_mean_squared_error(y_test,predictionsrd)} for tuned model, fitted on full train set")
+
+    model = rdSearch.best_estimator_
+    model.fit(df.drop(columns = "SalePrice",inplace=False), df["SalePrice"])
+
+    return model
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

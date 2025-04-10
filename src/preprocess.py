@@ -3,12 +3,14 @@ import matplotlib.pyplot as plt
 import missingno as msno
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.impute import SimpleImputer
+from sklearn.feature_selection import mutual_info_regression, SelectKBest
 
 
+
+
+test = pd.read_csv("/Users/kingmopser/PycharmProjects/Housing_Prices_Prediction/assets/test.csv")
+train = pd.read_csv("/Users/kingmopser/PycharmProjects/Housing_Prices_Prediction/assets/train.csv")
 if __name__ == "__main__":
-    test = pd.read_csv("/Users/kingmopser/PycharmProjects/Housing_Prices_Prediction/assets/test.csv")
-    train = pd.read_csv("/Users/kingmopser/PycharmProjects/Housing_Prices_Prediction/assets/train.csv")
-
 # overview of dataset
     print(train.head(5))
     print(train.tail(5))
@@ -39,24 +41,21 @@ if __name__ == "__main__":
     msno.heatmap(train)
     plt.show()
 
-
 # definining  preprocessing function/pipeline
-def CleanerImport(filePath):
+def preprocessing(filePath,name):
 
     df = pd.read_csv(filePath)
-
     df.drop(columns="Id", inplace=True)
     num_var = df.select_dtypes(exclude=["object"]).columns
-    num_var = num_var[num_var != "SalePrice"] #because the predicted values shouldn't be scaled
-    cat_var = df.select_dtypes(include=["object"]).columns
     const_imputer = SimpleImputer(strategy='constant', fill_value="unknown")
     mean_imputer = SimpleImputer(strategy='mean')
     encoder = LabelEncoder()
     col = df.select_dtypes(include=["object"]).columns
+
     # Imputing NAs
     for i in df.columns :
         if df.dtypes[i] == 'object':
-           df[[i]] = const_imputer.fit_transform(df[[i]])
+            df[[i]] = const_imputer.fit_transform(df[[i]])
         else:
             df[[i]] =mean_imputer.fit_transform(df[[i]])
 
@@ -91,8 +90,23 @@ def CleanerImport(filePath):
 
     # standarizing
     scaler = StandardScaler()
+    num_var = num_var[num_var!= "SalePrice"]
     df[num_var] = pd.DataFrame(scaler.fit_transform(df[num_var]), columns=num_var)
-    return df
+
+    # feature selection
+    bestFeatures = SelectKBest(score_func=mutual_info_regression, k=10)
+    if name == "train":
+        res = bestFeatures.fit_transform(X=df.drop(columns="SalePrice",inplace=False), y=df["SalePrice"])
+        fin = pd.DataFrame(res, columns=bestFeatures.get_feature_names_out())
+        fin["SalePrice"] = df["SalePrice"]
+        return fin
+
+    else:
+        return df
+
+
+
+
 
 
 
