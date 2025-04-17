@@ -5,20 +5,20 @@ The dataset used is the Housing Prices dataset of Properties in Ames,Iowa.
 
 ## Feature:
 ### Data pre-processing:
-Handling missing values,
+Handling missing values, by imputing NAs.
 ### Explanatory Data Analysis:
-Descriptive Plots
+Descriptive Plots, e.g. correlation matrix of feature variables
 ### Model Training:
-Training on train Data and using different models
+Training on train Data and using a random forest
 ### Hyperparameter Tuning:
-optimization
+using RandomSeachCV and choosing best performing model
 ### Evaluation:
 Root Mean Squared error
 
 ## Technologies Used:
 Python <p>
 Pandas & NumPy (Data manipulation) <p>
-Matplotlib & Seaborn (Data visualization) <p>
+Matplotlib (Data visualization) <p>
 Scikit-learn (Machine learning models) <p>
 
 ## Installation Instructions:
@@ -35,15 +35,15 @@ pip install -r requirements.txt
 ### Run the preprocessing script: <p>
 python preprocess.py <p>
 ### Train the model: <p>
-<p>
+python train.py <p>
 ### Make predictions: <p>
-<p>
+python predict.py <p>
 
 
 ## Data:
 Available [here](https://www.kaggle.com/competitions/home-data-for-ml-course/data):
 
 ## License:
-All rights belong to Kaggle. I do not own any of this data. <p>
+All rights belong to Kaggle. <p>
 
 
